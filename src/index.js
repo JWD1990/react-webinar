@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Store from './store.js';
+import AppStore from './appStore.js';
 import App from './app.js';
 
 const root = document.getElementById("app");
 
 // Состояние приложения
-const store = new Store({
+const store = new AppStore({
   items: [
     {code: 1, title: 'Название элемента'},
     {code: 2, title: 'Некий объект'},

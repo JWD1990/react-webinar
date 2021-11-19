@@ -37,49 +37,6 @@ class Store {
       lister(this.state);
     }
   }
-
-  // Действия приложения.
-  // @todo
-  // Нужно вынести в отдельный слой, так как Store не определяет конкретную структуру состояния.
-  // Может быть как модуль (расширение) для Store
-
-  /**
-   * Создание записи
-   */
-  createItem() {
-    const code = Math.max(0, ...this.state.items.map(item => item.code)) + 1;
-    this.setState({
-      items: this.state.items.concat({
-        code,
-        title: 'Новая запись №'+code
-      })
-    });
-  }
-
-  /**
-   * Удаление записи по её коду
-   * @param code
-   */
-  deleteItem(code) {
-    this.setState({
-      items: this.state.items.filter(item => item.code !== code)
-    });
-  }
-
-  /**
-   * Выделение записи по её коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      items: this.state.items.map(item => {
-        if (item.code === code){
-          item.selected = !item.selected;
-        }
-        return item;
-      })
-    });
-  }
 }
 
 export default Store;
