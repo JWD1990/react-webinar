@@ -9,9 +9,14 @@
     background: #75aaf1;
 }
 
-.Item__title{
+.Item__content{
     width: 100%;
     padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.Item__title{
+
 }
 .Item__actions{
     padding: 20px  20px 20px 10px;

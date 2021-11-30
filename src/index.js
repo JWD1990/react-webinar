@@ -10,13 +10,13 @@ console.log('index.js');
 // Состояние приложения
 const store = new Store({
   items: [
-    {code: 1, title: 'Название элемента'},
-    {code: 2, title: 'Некий объект'},
-    {code: 3, title: 'Заголовок'},
-    {code: 4, title: 'Короткое название'},
-    {code: 5, title: 'Запись'},
-    {code: 6, title: 'Пример названия'},
-    {code: 7, title: 'Седьмой'}
+    {code: 1, cost: 11, title: 'Неопознанный объект'},
+    {code: 2, cost: 222, title: 'Лось'},
+    {code: 3, cost: 100, title: 'Книга магии'},
+    {code: 4, cost: 50, title: 'Кочерга'},
+    {code: 5, cost: 5, title: 'Воздух с моря'},
+    {code: 6, cost: 2, title: 'Что-то очень неприглядное'},
+    {code: 7, cost: 1000, title: 'Набор интсрументов "Сюрприз"'}
   ]
 });
 

@@ -1,7 +1,10 @@
 class Store {
   constructor(initState) {
     // Состояние приложения (данные)
-    this.state = initState;
+    this.state = {
+      ...initState,
+      basket: new Map()
+    };
     // Подписчики на изменение state
     this.listners = [];
   }
@@ -83,6 +86,22 @@ class Store {
       })
     });
   }
+
+  /**
+   * Добавление в корзину товара
+   * @param item (link)
+   */
+  addPosition(item) {
+    const basket = this.getState().basket;
+
+    basket.set(
+      item,
+      basket.get(item) + 1 || 1
+    );
+
+    this.setState({...this.state});
+  }
+
 }
 
 export default Store;
