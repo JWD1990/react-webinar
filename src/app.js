@@ -23,13 +23,9 @@ function App({store}) {
   }
 
   const basket = store.getState().basket;
-  let countPositions = 0;
-  let totalPrice = 0;
-
-  for (let [key, value] of basket) {
-    totalPrice += key.cost * value;
-    countPositions += value;
-  }
+  const countPositions = basket.length;
+  const totalPrice = basket.reduce((prev, curr) => prev + (curr.cost * curr.amount), 0);
+  const totalAmount = basket.reduce((prev, curr) => prev + curr.amount, 0);
 
   return (
     <>
@@ -46,7 +42,7 @@ function App({store}) {
       <Modal basket={basket}
               active={activeModal}
               onActive={callbacks.onActiveModal}
-              countPositions={countPositions}
+              totalAmount={totalAmount}
               totalPrice={totalPrice}
       />
     </>

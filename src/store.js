@@ -3,7 +3,7 @@ class Store {
     // Состояние приложения (данные)
     this.state = {
       ...initState,
-      basket: new Map()
+      basket: []
     };
     // Подписчики на изменение state
     this.listners = [];
@@ -92,14 +92,34 @@ class Store {
    * @param item (link)
    */
   addPosition(item) {
-    const basket = this.getState().basket;
+    let state = this.getState();
+    const targetBasketItem = state.basket.find((i) => i.code === item.code);
+    const basketItem = {
+      ...item,
+      amount: targetBasketItem?.amount + 1 || 1
+    };
+    let newBasket = [];
 
-    basket.set(
-      item,
-      basket.get(item) + 1 || 1
-    );
+    if (!state.basket.length) {
+      newBasket.push(basketItem);
+    }
+    else if (!targetBasketItem) {
+      newBasket = [...state.basket, basketItem];
+    }
+    else {
+      newBasket = state.basket.map(i => {
+        if (i.code !== basketItem.code) {
+          return i;
+        }
+  
+        return basketItem;
+      })
+    }
 
-    this.setState({...this.state});
+    this.setState({
+      ...state,
+      basket: newBasket
+    });
   }
 
 }
