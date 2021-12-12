@@ -5,19 +5,20 @@ import BasketSimple from "../../components/basket-simple";
 import List from "../../components/list";
 import useStore from "../../utils/use-store";
 import useSelector from "../../utils/use-selector";
+import Pagination from "../../components/pagination";
 
 function Main() {
-
   const select = useSelector(state => ({
     items: state.catalog.items,
     amount: state.basket.amount,
-    sum: state.basket.sum
+    sum: state.basket.sum,
+    currentPage: state.catalog.currentPage
   }));
 
-  // Загрузка тестовых данных при первом рендере
+  // Загрузка тестовых данных при первом рендере и установки новой страницы
   useEffect(async () => {
     await store.catalog.load();
-  }, []);
+  }, [select.currentPage]);
 
   const store = useStore();
 
@@ -36,6 +37,7 @@ function Main() {
     <Layout head={<h1>Магазин</h1>}>
       <BasketSimple onOpen={callbacks.openModal} amount={select.amount} sum={select.sum}/>
       <List items={select.items} renderItem={renders.item}/>
+      <Pagination />
     </Layout>
   );
 }
