@@ -25,7 +25,7 @@ let config = {
     new HtmlWebPackPlugin({
       template: './index.html',
       filename: './index.html',
-      base: '',
+      base: '/', // решает проблему со стилями, когда роутер используем
     }),
   ],
   //

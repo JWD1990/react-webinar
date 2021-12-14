@@ -30,3 +30,12 @@
     text-align: right;
     font-size: 18px;
 }
+
+.ItemBasket__link {
+    color: #000;
+    text-decoration: none;
+}
+
+.ItemBasket__link:hover {
+    text-decoration: underline;
+}

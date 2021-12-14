@@ -6,6 +6,7 @@ import List from "../../components/list";
 import useStore from "../../utils/use-store";
 import useSelector from "../../utils/use-selector";
 import Pagination from "../../components/pagination";
+import { useHistory } from "react-router-dom";
 
 function Main() {
   const select = useSelector(state => ({
@@ -21,15 +22,20 @@ function Main() {
   }, [select.currentPage]);
 
   const store = useStore();
+  const router = useHistory();
 
   const callbacks = {
     addToBasket: useCallback((_id) => store.basket.add(_id), [store]),
     openModal: useCallback(() => store.modals.open('basket'), [store]),
+    showItemInfo: useCallback(id => {
+      store.modals.close();
+      router.push(`/catalog/${id}`);
+    }, [store]),
   }
 
   const renders = {
     item: useCallback(item => {
-      return <Item item={item} onAdd={callbacks.addToBasket}/>
+      return <Item item={item} onAdd={callbacks.addToBasket} onShowItemInfo={callbacks.showItemInfo} />
     }, [callbacks.addToBasket]),
   }
 

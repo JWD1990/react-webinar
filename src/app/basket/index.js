@@ -5,8 +5,11 @@ import LayoutModal from "../../components/layout-modal";
 import ItemBasket from "../../components/item-basket";
 import useSelector from "../../utils/use-selector";
 import useStore from "../../utils/use-store";
+import { useHistory } from "react-router-dom";
 
 function Basket(){
+
+  const router = useHistory();
 
   const select = useSelector(state => ({
     items: state.basket.items,
@@ -18,11 +21,15 @@ function Basket(){
 
   const callbacks = {
     closeModal: useCallback(() => store.modals.close(), [store]),
+    showItemInfo: useCallback(id => {
+      store.modals.close();
+      router.push(`/catalog/${id}`);
+    }, [store]),
   }
 
   const renders = {
     itemBasket: useCallback(item => {
-      return <ItemBasket item={item}/>
+      return <ItemBasket item={item} onShowItemInfo={callbacks.showItemInfo}  />
     }, [])
   }
 
