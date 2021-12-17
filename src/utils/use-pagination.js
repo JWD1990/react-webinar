@@ -2,8 +2,7 @@ import React from 'react';
 
 /**
  * Хук для расчёта количества страниц на отрисовку для пагинации
- * @param count {Number}
- * @param limit {Number}
+ * @param totalPages {Number}
  * @return []
  */
 export default function usePagination(totalPages) {

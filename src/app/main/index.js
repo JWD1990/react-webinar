@@ -13,13 +13,14 @@ function Main() {
     items: state.catalog.items,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    currentPage: state.catalog.currentPage
+    currentPage: state.catalog.currentPage,
+    maxPage: state.catalog.maxPage
   }));
 
-  // Загрузка тестовых данных при первом рендере и установки новой страницы
+  // Загрузка тестовых данных при первом рендере
   useEffect(async () => {
     await store.catalog.load();
-  }, [select.currentPage]);
+  }, []);
 
   const store = useStore();
   const router = useHistory();
@@ -31,6 +32,7 @@ function Main() {
       store.modals.close();
       router.push(`/catalog/${id}`);
     }, [store]),
+    selectPage: useCallback((numberPage) => store.catalog.load(numberPage), [store]),
   }
 
   const renders = {
@@ -43,7 +45,7 @@ function Main() {
     <Layout head={<h1>Магазин</h1>}>
       <BasketSimple onOpen={callbacks.openModal} amount={select.amount} sum={select.sum}/>
       <List items={select.items} renderItem={renders.item}/>
-      <Pagination />
+      <Pagination maxPage={select.maxPage} currentPage={select.currentPage} onSelect={callbacks.selectPage} />
     </Layout>
   );
 }

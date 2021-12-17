@@ -9,7 +9,6 @@ class CatalogStore extends StoreModule {
     return {
       items: [],
       limit: 10,
-      skip: 0,
       count: 0,
       currentPage: 1,
       maxPage: 1
@@ -19,9 +18,16 @@ class CatalogStore extends StoreModule {
   /**
    * Загрузка списка товаров
    */
-  async load(){
+  async load(numberPage){
     const data = this.getState();
-    const response = await fetch(`/api/v1/articles?limit=${data.limit}&skip=${data.skip}&fields=items(*),count`);
+
+    if (data.maxPage < numberPage || !numberPage) {
+      numberPage = 1;
+    }
+
+    const skip = numberPage === 1 ? 0 : data.limit * numberPage;
+
+    const response = await fetch(`/api/v1/articles?limit=${data.limit}&skip=${skip}&fields=items(*),count`);
     const json = await response.json();
     let maxPage = Math.ceil(json.result.count / data.limit);
 
@@ -33,26 +39,9 @@ class CatalogStore extends StoreModule {
       ...data,
       items: json.result.items,
       count: json.result.count,
-      maxPage
+      maxPage,
+      currentPage: numberPage
     });
-  }
-
-  /**
-   * Установка номера страницы
-   */
-  setPage(numberPage) {
-    const data = this.getState();
-
-    if (data.maxPage < numberPage || !numberPage) {
-      console.log(`Ошибка установки номера страницы! Номер: ${numberPage}`);
-      return;
-    }
-
-    this.setState({
-      ...data,
-      currentPage: numberPage,
-      skip: numberPage === 1 ? 0 : data.limit * numberPage
-    })
   }
 }
 

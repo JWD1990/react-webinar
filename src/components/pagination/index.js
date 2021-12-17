@@ -1,37 +1,35 @@
-import React, {useCallback} from 'react';
+import React from 'react';
+import propTypes from 'prop-types';
 import './styles.css';
 import usePagination from '../../utils/use-pagination';
-import useStore from '../../utils/use-store';
-import useSelector from '../../utils/use-selector';
 
-function Pagination() {
-  const store = useStore();
-
-  const select = useSelector(state => ({
-    currentPage: state.catalog.currentPage,
-    count: state.catalog.count,
-    limit: state.catalog.limit,
-    maxPage: state.catalog.maxPage
-  }));
-
-  const pages = usePagination(select.maxPage);
-
-  const callbacks = {
-    onSelectPage: useCallback((numberPage) => store.catalog.setPage(numberPage), [store])
-}
+function Pagination({maxPage, currentPage, onSelect}) {
+  const pages = usePagination(maxPage);
 
   return (
     <div className='Pagination'>
       {pages.map((page, idx) =>
         <div key={idx}
-            className={'Pagination__item' + (page === select.currentPage ? ' Pagination__item_active': '')}
-            onClick={() => callbacks.onSelectPage(page)}
+            className={'Pagination__item' + (page === currentPage ? ' Pagination__item_active': '')}
+            onClick={() => onSelect(page)}
         >
           {page}
         </div>
       )}
     </div>
   );
+}
+
+Pagination.propTypes = {
+  maxPage: propTypes.number.isRequired,
+  currentPage: propTypes.number,
+  onSelectPage: propTypes.func
+}
+
+Pagination.defaultProps = {
+  maxPage: 1,
+  currentPage: 1,
+  onSelectPage: () => {}
 }
 
 export default React.memo(Pagination);
